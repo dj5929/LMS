@@ -1,0 +1,75 @@
+{%extends "/shared/admin_layout.html" %}
+
+{% block title %} OverDue Reminder - View {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="width:100%; margin-top: 3em;">
+        {% if msg %}
+        <div class="alert alert-success">{{msg}}</div>
+        {% endif %}
+        <form action="/admin/books/filtersearch" method="GET">
+            <div class="form-group">
+                <div style="width: 100%">
+                    <div style="width: 50%; display: inline-block;">
+                        <input type="search" name="keyword" autofocus class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" value="{{keyword}}" placeholder="Filter for User / books...">
+                    </div>
+                    <div style="width: 25%; display: inline-block;">
+                        <input type="date" name="duedate" autofocus class="form-control" id="duedate"
+                            aria-describedby="duedate" value="{{duedate}}">
+                    </div>
+                    <div style="width: 15%; display: inline-block;">
+                        <button type="submit" style="margin-left: 5px;" class="btn btn-primary">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <h2>Book OverDue Reminder</h2>
+        <table cellspacing="2" cellpadding="2" border="2">
+            <caption bgcolor="light blue" style="caption-side:top">Book Overdue Reminder List
+                {{repdate}}
+            </caption>
+            <thead>
+                <tr bgcolor="#ffffff">
+                    <th>Student Name</th>
+                    <th>Roll No</th>
+                    <th>Mobile</th>
+                    <th>Department</th>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th>Issued Date</th>
+                    <th>Due Date</th>
+                    <th>Delayed Days</th>
+                </tr>
+            </thead>
+            {% if books %}
+
+            <tbody>
+
+                {% for book in books %}
+                <tr>
+                    <td>{{book.username}}</td>
+                    <td>{{book.regid}}</td>
+                    <td>{{book.mob}}</td>
+                    <td>{{book.dept}}</td>
+                    <td>{{book.name}}</td>
+                    <td>{{book['author']}} </td>
+                    <td>{{book['issued_date']}}</td>
+                    <td>{{book['due_date']}}</td>
+                    <td style="text-align: right">{{book['delayed_days']}}</td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <p>No Books In Stash!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
